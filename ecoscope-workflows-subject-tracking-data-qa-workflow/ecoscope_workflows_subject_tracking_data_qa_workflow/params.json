@@ -1,0 +1,61 @@
+{
+  "properties": {
+    "workflow_details": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Workflow Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "description": "Add information that will help to differentiate this workflow from another.",
+      "title": "Set Workflow Details"
+    },
+    "subjects": {
+      "additionalProperties": false,
+      "properties": {
+        "include_inactive": {
+          "default": null,
+          "title": "Include Inactive",
+          "type": "boolean",
+          "description": "Include inactive subjects in the list.",
+          "ecoscope:advanced": true
+        },
+        "subject_group_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subject Group Name",
+          "description": "Subject group name to filter subjects by."
+        }
+      },
+      "required": [],
+      "type": "object",
+      "title": "Get Subjects"
+    }
+  },
+  "$defs": {},
+  "uiSchema": {
+    "subjects": {
+      "ui:order": [
+        "include_inactive",
+        "subject_group_name"
+      ]
+    },
+    "ui:order": [
+      "workflow_details",
+      "subjects"
+    ]
+  },
+  "additionalProperties": false
+}

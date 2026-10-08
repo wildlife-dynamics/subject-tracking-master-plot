@@ -1,0 +1,6 @@
+studio-run:
+  name: subject_tracking_data_qa (from Studio)
+  description: The values used with ▶ Run in Ecoscope Studio's designer.
+  params:
+    workflow_details:
+      name: jk

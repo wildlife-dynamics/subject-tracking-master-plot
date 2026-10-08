@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technical Guide · subject_tracking_data_qa</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="index.html">subject_tracking_data_qa</a>
+      <nav>
+        <a href="index.html">Overview</a>
+        <a href="user-guide.html">User Guide</a>
+        <a href="technical-guide.html" class="active">Technical Guide</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>Technical Guide</h1>
+    <p class="lede">The steps subject_tracking_data_qa runs, the packages they come from, and how to recompile and test it.</p>
+
+    <h2>Steps</h2>
+    <p>In the order they run. Each step is a task from one of the packages below.</p>
+    <table>
+      <thead><tr><th>#</th><th>Step</th><th>Task</th><th>Group</th><th>What it does</th></tr></thead>
+      <tbody><tr><td>1</td><td><strong>Set Workflow Details</strong></td><td><code>set_workflow_details</code></td><td></td><td>Add information that will help to differentiate this workflow from another.</td></tr><tr><td>2</td><td><strong>Set Groupers</strong></td><td><code>set_groupers</code></td><td></td><td></td></tr><tr><td>3</td><td><strong>Set Er Connection</strong></td><td><code>set_er_connection</code></td><td></td><td></td></tr><tr><td>4</td><td><strong>Get Subjects</strong></td><td><code>get_subjects</code></td><td></td><td>Fetch subjects from EarthRanger with filtering options.</td></tr><tr><td>5</td><td><strong>Get Subjectsources</strong></td><td><code>get_subjectsources</code></td><td></td><td>Fetch subject-source assignments (which device was on which subject, and when) from EarthRanger.</td></tr><tr><td>6</td><td><strong>Get Sources</strong></td><td><code>get_sources</code></td><td></td><td>Fetch sources (tracking devices) from EarthRanger.</td></tr><tr><td>7</td><td><strong>Draw Subject Source Diagram</strong></td><td><code>draw_subject_source_diagram</code></td><td></td><td>Draw subjects and sources in two columns, linked by their assignments.</td></tr><tr><td>8</td><td><strong>Persist Text</strong></td><td><code>persist_text</code></td><td></td><td>Persist text to a file or cloud storage object.</td></tr><tr><td>9</td><td><strong>Create Plot Widget Single View</strong></td><td><code>create_plot_widget_single_view</code></td><td></td><td>Create a plot widget with a single view.</td></tr><tr><td>10</td><td><strong>Gather Dashboard</strong></td><td><code>gather_dashboard</code></td><td></td><td></td></tr></tbody>
+    </table>
+
+    <h2>Task packages</h2>
+    <table>
+      <thead><tr><th>Package</th><th>Version</th><th>Channel</th></tr></thead>
+      <tbody><tr><td><code>ecoscope-platform</code></td><td>==2.25.0</td><td>https://repo.prefix.dev/ecoscope-workflows/</td></tr><tr><td><code>pydeck</code></td><td>==0.9.2</td><td>conda-forge</td></tr><tr><td><code>setuptools</code></td><td>==81.0.0</td><td>conda-forge</td></tr><tr><td><code>ecoscope-workflows-ext-ste</code></td><td>==0.0.0rc1</td><td>https://repo.prefix.dev/ecoscope-workflows-custom/</td></tr><tr><td><code>ecoscope-workflows-ext-custom</code></td><td>==0.1.0rc14</td><td>https://repo.prefix.dev/ecoscope-workflows-custom/</td></tr><tr><td><code>ecoscope-workflows-ext-mep</code></td><td>==1.0.5</td><td>https://repo.prefix.dev/ecoscope-workflows-custom/</td></tr></tbody>
+    </table>
+
+    <h2>Recompiling</h2>
+    <p><code>spec.yaml</code> is the source; <code>ecoscope-workflows-subject-tracking-data-qa-workflow/</code> is generated from it by wt-compiler.</p>
+    <pre><code>./dev/recompile.sh --update   # keeps the lock file and bumps VERSION.yaml
+./dev/recompile.sh --install  # a new lock file, and the packages installed</code></pre>
+
+    <h2>Testing</h2>
+    <p>Each case in <code>test-cases.yaml</code> runs the workflow with its settings:</p>
+    <pre><code>pixi run --manifest-path pixi.toml -e default bash dev/pytest-cli.sh subject_tracking_data_qa --all</code></pre>
+  </main>
+
+  <footer class="site-footer">
+    <p>subject_tracking_data_qa &middot; Wildlife Dynamics</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,144 @@
+# Written by Ecoscope Studio from the design “subject_tracking_data_qa”. Edit it in Studio's designer;
+# changes made here are replaced the next time the design is saved.
+id: subject_tracking_data_qa
+requirements:
+- name: ecoscope-platform
+  version: ==2.25.0
+  channel: https://repo.prefix.dev/ecoscope-workflows/
+- name: pydeck
+  version: ==0.9.2
+  channel: conda-forge
+- name: setuptools
+  version: ==81.0.0
+  channel: conda-forge
+- name: ecoscope-workflows-ext-ste
+  version: ==0.0.0rc1
+  channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+- name: ecoscope-workflows-ext-custom
+  version: ==0.1.0rc14
+  channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+- name: ecoscope-workflows-ext-mep
+  version: ==1.0.5
+  channel: https://repo.prefix.dev/ecoscope-workflows-custom/
+task-instance-defaults:
+  skipif:
+    conditions:
+    - any_is_empty_df
+    - any_dependency_skipped
+workflow:
+- name: Set Workflow Details
+  id: workflow_details
+  task: set_workflow_details
+  partial:
+    description: ''
+- name: Set Groupers
+  id: groupers
+  task: set_groupers
+  partial:
+    groupers: null
+- name: Set Er Connection
+  id: er_connection
+  task: set_er_connection
+  partial:
+    data_source:
+      name: Mara North Conservancy
+- name: Get Subjects
+  id: subjects
+  task: get_subjects
+  partial:
+    client: ${{ workflow.er_connection.return }}
+    bbox: null
+    subject_group_id: null
+    name: null
+    updated_since: null
+    updated_until: null
+    tracks: null
+    ids: null
+    max_ids_per_request: 50
+    raise_on_empty: true
+- name: Get Subjectsources
+  id: subjectsources
+  task: get_subjectsources
+  partial:
+    client: ${{ workflow.er_connection.return }}
+    subject_ids: null
+    source_ids: null
+    raise_on_empty: false
+- name: Get Sources
+  id: sources
+  task: get_sources
+  partial:
+    client: ${{ workflow.er_connection.return }}
+    manufacturer_id: null
+    provider_key: null
+    provider: null
+    ids: null
+    raise_on_empty: false
+- name: Draw Subject Source Diagram
+  id: subject_source_diagram
+  task: draw_subject_source_diagram
+  partial:
+    subjects: ${{ workflow.subjects.return }}
+    subjectsources: ${{ workflow.subjectsources.return }}
+    sources: ${{ workflow.sources.return }}
+    node_style:
+      subject_fill: '#dbeafe'
+      inactive_subject_fill: '#f1f5f9'
+      source_fill: '#dcfce7'
+      border_color: '#94a3b8'
+      unlinked_border_color: '#f59e0b'
+      missing_source_border_color: '#dc2626'
+      border_width: 1
+      flagged_border_width: 2
+      width: 210
+      max_label_chars: 28
+    link_style:
+      current_color: '#475569'
+      ended_color: '#cbd5e1'
+      bad_date_color: '#dc2626'
+      current_width: 1.5
+      ended_width: 1
+      ended_dash: 4 3
+      label_color: '#334155'
+      ended_label_color: '#94a3b8'
+      label_font_size: 11
+    layout_style:
+      font_size: 10
+      font_color: '#0f172a'
+      font_family: Helvetica, Arial, sans-serif
+      plot_bgcolor: '#ffffff'
+      showlegend: true
+      muted_color: '#64748b'
+      header_color: '#475569'
+      section_color: '#b45309'
+      rule_color: '#e2e8f0'
+      subject_header: Subjects
+      assigned_header: Assigned
+      source_header: Sources
+      label_column_width: 150
+      link_width: 130
+      hover_dim_opacity: 0.12
+    title: ''
+    row_height: 42
+    include_unlinked_sources: true
+- name: Persist Text
+  id: text
+  task: persist_text
+  partial:
+    root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
+    text: ${{ workflow.subject_source_diagram.return }}
+- name: Create Plot Widget Single View
+  id: plot_widget_single_view
+  task: create_plot_widget_single_view
+  partial:
+    title: Plot
+    data: ${{ workflow.text.return }}
+- name: Gather Dashboard
+  id: dashboard
+  task: gather_dashboard
+  partial:
+    details: ${{ workflow.workflow_details.return }}
+    groupers: ${{ workflow.groupers.return }}
+    widgets:
+    - ${{ workflow.plot_widget_single_view.return }}
+    time_range: null
