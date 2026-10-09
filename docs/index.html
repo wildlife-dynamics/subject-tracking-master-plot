@@ -21,7 +21,7 @@
 
   <main>
     <h1>subject_tracking_data_qa</h1>
-    <p class="lede">subject_tracking_data_qa</p>
+    <p class="lede">A data-quality check for EarthRanger tracking setups: every subject, tracking device (source) and assignment between them, drawn as one interactive diagram so you can see which animal wears which collar, since when, and what looks wrong.</p>
 
     <div class="card-grid">
       <a class="card" href="user-guide.html">
@@ -38,14 +38,40 @@
       </a>
     </div>
 
+    <h2>What the diagram shows</h2>
+    <p>Subjects are listed on the left and sources on the right. Each assignment is a line between them, labelled with its date range (e.g. <code>2024-03-01 → present</code>).</p>
+    <table>
+      <thead><tr><th>You see</th><th>It means</th></tr></thead>
+      <tbody>
+        <tr><td>Solid dark line</td><td>A current assignment (no end date)</td></tr>
+        <tr><td>Grey dashed line</td><td>An ended assignment</td></tr>
+        <tr><td>Red line and label marked <code>⚠</code></td><td>An assignment whose start or end date can't be read</td></tr>
+        <tr><td>Pill with an amber outline, listed at the bottom</td><td>A subject with no source, or a source with no subject</td></tr>
+        <tr><td>Grey-filled subject pill</td><td>An inactive subject</td></tr>
+        <tr><td>Source pill with a red outline</td><td>An assignment points at a source that isn't in the sources list</td></tr>
+      </tbody>
+    </table>
+    <p>Hover a subject or source to fade everything else and trace its links. Hover a line or pill for full details.</p>
+
     <h2>What it does</h2>
     <table>
       <thead><tr><th>Step</th><th>What it does</th></tr></thead>
-      <tbody><tr><td><strong>Set Workflow Details</strong></td><td>Add information that will help to differentiate this workflow from another.</td></tr><tr><td><strong>Set Groupers</strong></td><td></td></tr><tr><td><strong>Set Er Connection</strong></td><td></td></tr><tr><td><strong>Get Subjects</strong></td><td>Fetch subjects from EarthRanger with filtering options.</td></tr><tr><td><strong>Get Subjectsources</strong></td><td>Fetch subject-source assignments (which device was on which subject, and when) from EarthRanger.</td></tr><tr><td><strong>Get Sources</strong></td><td>Fetch sources (tracking devices) from EarthRanger.</td></tr><tr><td><strong>Draw Subject Source Diagram</strong></td><td>Draw subjects and sources in two columns, linked by their assignments.</td></tr><tr><td><strong>Persist Text</strong></td><td>Persist text to a file or cloud storage object.</td></tr><tr><td><strong>Create Plot Widget Single View</strong></td><td>Create a plot widget with a single view.</td></tr><tr><td><strong>Gather Dashboard</strong></td><td></td></tr></tbody>
+      <tbody>
+        <tr><td><strong>Set Workflow Details</strong></td><td>Names the run, so its dashboard can be told apart from others.</td></tr>
+        <tr><td><strong>Set Groupers</strong></td><td>No grouping: the dashboard has a single view.</td></tr>
+        <tr><td><strong>Set Er Connection</strong></td><td>Connects to the EarthRanger site you pick.</td></tr>
+        <tr><td><strong>Get Subjects</strong></td><td>Fetches subjects, optionally only one subject group. Stops the run if none are found.</td></tr>
+        <tr><td><strong>Get Subjectsources</strong></td><td>Fetches all subject–source assignments on the site.</td></tr>
+        <tr><td><strong>Get Sources</strong></td><td>Fetches all sources (tracking devices) on the site.</td></tr>
+        <tr><td><strong>Draw Subject Source Diagram</strong></td><td>Draws the diagram as a self-contained HTML page, including sources not assigned to any subject.</td></tr>
+        <tr><td><strong>Persist Text</strong></td><td>Saves the HTML page to the results folder.</td></tr>
+        <tr><td><strong>Create Plot Widget Single View</strong></td><td>Wraps the page in a dashboard widget titled <strong>Plot</strong>.</td></tr>
+        <tr><td><strong>Gather Dashboard</strong></td><td>Builds the dashboard from that widget.</td></tr>
+      </tbody>
     </table>
 
     <h2>Requirements</h2>
-    <ul><li>Access to a <strong>EarthRanger</strong> data source, set up as a connection</li></ul>
+    <ul><li>Access to an <strong>EarthRanger</strong> site, set up as a data source connection. The account needs read access to subjects, sources and subject sources.</li></ul>
 
     <h2>Get started</h2>
     <p>New to the workflow? Start with the <a href="user-guide.html">User Guide</a>. Running into an error? Check <a href="troubleshooting.html">Troubleshooting</a> first.</p>

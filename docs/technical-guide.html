@@ -21,19 +21,69 @@
 
   <main>
     <h1>Technical Guide</h1>
-    <p class="lede">The steps subject_tracking_data_qa runs, the packages they come from, and how to recompile and test it.</p>
+    <p class="lede">The steps subject_tracking_data_qa runs, how the diagram is built, the packages they come from, and how to recompile and test it.</p>
+
+    <h2>Data flow</h2>
+    <pre><code>set_er_connection ──┬─► get_subjects ───────┐
+                    ├─► get_subjectsources ─┼─► draw_subject_source_diagram ─► persist_text
+                    └─► get_sources ────────┘            (HTML string)          (.html file)
+                                                                                    │
+set_workflow_details ─┐                                                             ▼
+set_groupers ─────────┴──────────────► gather_dashboard ◄── create_plot_widget_single_view</code></pre>
 
     <h2>Steps</h2>
-    <p>In the order they run. Each step is a task from one of the packages below.</p>
+    <p>In the order they run. Settings marked <em>run form</em> are filled in by the user; everything else is fixed in <code>spec.yaml</code>.</p>
     <table>
-      <thead><tr><th>#</th><th>Step</th><th>Task</th><th>Group</th><th>What it does</th></tr></thead>
-      <tbody><tr><td>1</td><td><strong>Set Workflow Details</strong></td><td><code>set_workflow_details</code></td><td></td><td>Add information that will help to differentiate this workflow from another.</td></tr><tr><td>2</td><td><strong>Set Groupers</strong></td><td><code>set_groupers</code></td><td></td><td></td></tr><tr><td>3</td><td><strong>Set Er Connection</strong></td><td><code>set_er_connection</code></td><td></td><td></td></tr><tr><td>4</td><td><strong>Get Subjects</strong></td><td><code>get_subjects</code></td><td></td><td>Fetch subjects from EarthRanger with filtering options.</td></tr><tr><td>5</td><td><strong>Get Subjectsources</strong></td><td><code>get_subjectsources</code></td><td></td><td>Fetch subject-source assignments (which device was on which subject, and when) from EarthRanger.</td></tr><tr><td>6</td><td><strong>Get Sources</strong></td><td><code>get_sources</code></td><td></td><td>Fetch sources (tracking devices) from EarthRanger.</td></tr><tr><td>7</td><td><strong>Draw Subject Source Diagram</strong></td><td><code>draw_subject_source_diagram</code></td><td></td><td>Draw subjects and sources in two columns, linked by their assignments.</td></tr><tr><td>8</td><td><strong>Persist Text</strong></td><td><code>persist_text</code></td><td></td><td>Persist text to a file or cloud storage object.</td></tr><tr><td>9</td><td><strong>Create Plot Widget Single View</strong></td><td><code>create_plot_widget_single_view</code></td><td></td><td>Create a plot widget with a single view.</td></tr><tr><td>10</td><td><strong>Gather Dashboard</strong></td><td><code>gather_dashboard</code></td><td></td><td></td></tr></tbody>
+      <thead><tr><th>#</th><th>Step</th><th>Task</th><th>Package</th><th>Settings</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>Set Workflow Details</strong></td><td><code>set_workflow_details</code></td><td><code>ecoscope-platform</code></td><td><code>name</code>, <code>description</code> (run form)</td></tr>
+        <tr><td>2</td><td><strong>Set Groupers</strong></td><td><code>set_groupers</code></td><td><code>ecoscope-platform</code></td><td><code>groupers: null</code> — one ungrouped view</td></tr>
+        <tr><td>3</td><td><strong>Set Er Connection</strong></td><td><code>set_er_connection</code></td><td><code>ecoscope-platform</code></td><td><code>data_source</code> (run form)</td></tr>
+        <tr><td>4</td><td><strong>Get Subjects</strong></td><td><code>get_subjects</code></td><td><code>ecoscope-workflows-ext-mep</code></td><td><code>subject_group_name</code>, <code>include_inactive</code>, <code>tracks</code> (run form); <code>raise_on_empty: true</code>; no bbox, name, ID or date filters; <code>max_ids_per_request: 50</code></td></tr>
+        <tr><td>5</td><td><strong>Get Subjectsources</strong></td><td><code>get_subjectsources</code></td><td><code>ecoscope-workflows-ext-mep</code></td><td>No subject or source filter: every assignment on the site. <code>raise_on_empty: false</code></td></tr>
+        <tr><td>6</td><td><strong>Get Sources</strong></td><td><code>get_sources</code></td><td><code>ecoscope-workflows-ext-mep</code></td><td>No manufacturer, provider or ID filter: every source on the site. <code>raise_on_empty: false</code></td></tr>
+        <tr><td>7</td><td><strong>Draw Subject Source Diagram</strong></td><td><code>draw_subject_source_diagram</code></td><td><code>ecoscope-workflows-ext-mep</code></td><td><code>title: ''</code>, <code>row_height: 42</code>, <code>include_unlinked_sources: true</code>, plus the styles below</td></tr>
+        <tr><td>8</td><td><strong>Persist Text</strong></td><td><code>persist_text</code></td><td><code>ecoscope-platform</code></td><td>Writes the HTML to <code>$ECOSCOPE_WORKFLOWS_RESULTS</code></td></tr>
+        <tr><td>9</td><td><strong>Create Plot Widget Single View</strong></td><td><code>create_plot_widget_single_view</code></td><td><code>ecoscope-platform</code></td><td><code>title: Plot</code>, <code>data</code>: the persisted file</td></tr>
+        <tr><td>10</td><td><strong>Gather Dashboard</strong></td><td><code>gather_dashboard</code></td><td><code>ecoscope-platform</code></td><td>One widget; <code>time_range: null</code>. Layout in <code>layout.json</code> (10 × 14 grid units).</td></tr>
+      </tbody>
     </table>
+
+    <h3>Skip conditions</h3>
+    <p>Every step uses the spec's <code>task-instance-defaults</code>: it is skipped when any input is an empty DataFrame (<code>any_is_empty_df</code>) or any step it depends on was skipped (<code>any_dependency_skipped</code>). So if the site has <strong>no assignments</strong> or <strong>no sources</strong>, the diagram step and everything after it are skipped and the dashboard has no diagram. No subjects at all fails the run instead, because <code>get_subjects</code> has <code>raise_on_empty: true</code>.</p>
+
+    <h2>How the diagram is built</h2>
+    <p><code>draw_subject_source_diagram</code> (in <code>ecoscope_workflows_ext_mep/tasks/results/_subject_source.py</code>) returns one self-contained HTML document with the diagram as inline SVG and a small script for hover highlighting. No external assets are loaded.</p>
+    <ol>
+      <li><strong>Graph.</strong> Assignments are kept only when their subject is in the fetched subjects, so a subject group filter also filters the lines. A source is <em>linked</em> when one of those assignments points at it. With <code>include_unlinked_sources: true</code> every other source on the site is drawn too. An assignment whose source isn't in the sources list still gets a pill, labelled with the first 8 characters of its ID and flagged as missing.</li>
+      <li><strong>Dates.</strong> Each assignment's <code>assigned_range</code> lower and upper bounds are read. An upper bound in year 9999 means open-ended (current); a lower bound in year 0001 means no start (<code>?</code>). A bound that can't be parsed is shown as <code>⚠</code> plus its first 10 characters and turns the line red. An assignment is <em>current</em> when it has no end date and no unreadable end date.</li>
+      <li><strong>Layout.</strong> Linked subjects are sorted by name; each spans one row per assignment, with its assignments sorted by date label. Each linked source is placed at the mean row of its assignments and pushed down when it would overlap the one above, which keeps line crossings low. Unlinked subjects and sources follow under <em>Subjects with no source</em> / <em>Sources with no subject</em>, below a rule.</li>
+      <li><strong>Labels.</strong> Subjects show <code>name</code>; sources show <code>manufacturer_id</code>, falling back to <code>collar_id</code>, then <code>id</code>. Labels longer than <code>max_label_chars</code> are cut with <code>…</code>. Hover text adds subject type and subtype, or a source's provider, source type and model.</li>
+    </ol>
+
+    <h3>Styles set in the spec</h3>
+    <p>All three style blocks are given in full in <code>spec.yaml</code>. They match the task defaults except <code>layout_style.font_size</code>, which is 10 here (default 12). The legend above the diagram is built from these values, so it always matches.</p>
+    <table>
+      <thead><tr><th>Block</th><th>Controls</th><th>Values in the spec</th></tr></thead>
+      <tbody>
+        <tr><td><code>node_style</code></td><td>Subject and source pills</td><td>Subject fill <code>#dbeafe</code>, inactive <code>#f1f5f9</code>, source <code>#dcfce7</code>; outline <code>#94a3b8</code> (1px), unlinked <code>#f59e0b</code> and missing source <code>#dc2626</code> (2px); width 210px; labels cut at 28 characters</td></tr>
+        <tr><td><code>link_style</code></td><td>Assignment lines and date labels</td><td>Current <code>#475569</code> 1.5px solid; ended <code>#cbd5e1</code> 1px dashed <code>4 3</code>; bad date <code>#dc2626</code>; labels <code>#334155</code> / ended <code>#94a3b8</code> at 11px</td></tr>
+        <tr><td><code>layout_style</code></td><td>Fonts, legend, headings, spacing</td><td>Helvetica 10px <code>#0f172a</code> on white; legend shown; column headings <em>Subjects</em> / <em>Assigned</em> / <em>Sources</em>; date column 150px, link space 130px; unrelated items fade to 0.12 opacity on hover</td></tr>
+      </tbody>
+    </table>
+    <p>Colour fields accept CSS colours only (hex, names, <code>rgb()</code>/<code>hsl()</code>); font and dash fields are restricted in the same way, so a value can't break out of the generated HTML.</p>
 
     <h2>Task packages</h2>
     <table>
-      <thead><tr><th>Package</th><th>Version</th><th>Channel</th></tr></thead>
-      <tbody><tr><td><code>ecoscope-platform</code></td><td>==2.25.0</td><td>https://repo.prefix.dev/ecoscope-workflows/</td></tr><tr><td><code>pydeck</code></td><td>==0.9.2</td><td>conda-forge</td></tr><tr><td><code>setuptools</code></td><td>==81.0.0</td><td>conda-forge</td></tr><tr><td><code>ecoscope-workflows-ext-ste</code></td><td>==0.0.0rc1</td><td>https://repo.prefix.dev/ecoscope-workflows-custom/</td></tr><tr><td><code>ecoscope-workflows-ext-custom</code></td><td>==0.1.0rc14</td><td>https://repo.prefix.dev/ecoscope-workflows-custom/</td></tr><tr><td><code>ecoscope-workflows-ext-mep</code></td><td>==1.0.5</td><td>https://repo.prefix.dev/ecoscope-workflows-custom/</td></tr></tbody>
+      <thead><tr><th>Package</th><th>Version</th><th>Channel</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td><code>ecoscope-platform</code></td><td>==2.25.0</td><td>https://repo.prefix.dev/ecoscope-workflows/</td><td>Config, connection, persisting and dashboard tasks; skip conditions</td></tr>
+        <tr><td><code>ecoscope-workflows-ext-mep</code></td><td>==1.0.7</td><td>https://repo.prefix.dev/ecoscope-workflows-custom/</td><td><code>get_subjects</code>, <code>get_subjectsources</code>, <code>get_sources</code>, <code>draw_subject_source_diagram</code></td></tr>
+        <tr><td><code>ecoscope-workflows-ext-ste</code></td><td>==0.0.0rc1</td><td>https://repo.prefix.dev/ecoscope-workflows-custom/</td><td>Not used by any step</td></tr>
+        <tr><td><code>ecoscope-workflows-ext-custom</code></td><td>==0.1.0rc14</td><td>https://repo.prefix.dev/ecoscope-workflows-custom/</td><td>Not used by any step</td></tr>
+        <tr><td><code>pydeck</code></td><td>==0.9.2</td><td>conda-forge</td><td>Pinned runtime dependency</td></tr>
+        <tr><td><code>setuptools</code></td><td>==81.0.0</td><td>conda-forge</td><td>Pinned runtime dependency</td></tr>
+      </tbody>
     </table>
 
     <h2>Recompiling</h2>
@@ -44,6 +94,7 @@
     <h2>Testing</h2>
     <p>Each case in <code>test-cases.yaml</code> runs the workflow with its settings:</p>
     <pre><code>pixi run --manifest-path pixi.toml -e default bash dev/pytest-cli.sh subject_tracking_data_qa --all</code></pre>
+    <p>The only case is currently <code>studio-run</code>, which sets only the workflow name. The run form also requires <code>er_connection.data_source.name</code>, so add it to the case to test against a site.</p>
   </main>
 
   <footer class="site-footer">

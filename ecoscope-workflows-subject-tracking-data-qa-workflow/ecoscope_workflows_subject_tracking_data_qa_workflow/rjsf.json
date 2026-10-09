@@ -6,6 +6,11 @@
         "name": {
           "title": "Workflow Name",
           "type": "string"
+        },
+        "description": {
+          "default": "",
+          "title": "Workflow Description",
+          "type": "string"
         }
       },
       "required": [
@@ -15,11 +20,26 @@
       "description": "Add information that will help to differentiate this workflow from another.",
       "title": "Set Workflow Details"
     },
+    "er_connection": {
+      "additionalProperties": false,
+      "properties": {
+        "data_source": {
+          "$ref": "#/$defs/EarthRangerConnection",
+          "title": "",
+          "description": "Select one of your configured data sources."
+        }
+      },
+      "required": [
+        "data_source"
+      ],
+      "type": "object",
+      "title": "Set Er Connection"
+    },
     "subjects": {
       "additionalProperties": false,
       "properties": {
         "include_inactive": {
-          "default": null,
+          "default": true,
           "title": "Include Inactive",
           "type": "boolean",
           "description": "Include inactive subjects in the list.",
@@ -28,15 +48,24 @@
         "subject_group_name": {
           "anyOf": [
             {
+              "title": "Filter by subject group name",
               "type": "string"
             },
             {
+              "title": "All subject groups (no filter)",
               "type": "null"
             }
           ],
           "default": null,
           "title": "Subject Group Name",
           "description": "Subject group name to filter subjects by."
+        },
+        "tracks": {
+          "default": false,
+          "title": "Tracks",
+          "type": "boolean",
+          "description": "Whether to include recent tracks for each subject.",
+          "ecoscope:advanced": true
         }
       },
       "required": [],
@@ -44,16 +73,38 @@
       "title": "Get Subjects"
     }
   },
-  "$defs": {},
+  "$defs": {
+    "EarthRangerConnection": {
+      "properties": {
+        "name": {
+          "title": "Data Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "EarthRangerConnection",
+      "type": "object"
+    }
+  },
   "uiSchema": {
+    "workflow_details": {
+      "ui:order": [
+        "name",
+        "description"
+      ]
+    },
     "subjects": {
       "ui:order": [
         "include_inactive",
-        "subject_group_name"
+        "subject_group_name",
+        "tracks"
       ]
     },
     "ui:order": [
       "workflow_details",
+      "er_connection",
       "subjects"
     ]
   },

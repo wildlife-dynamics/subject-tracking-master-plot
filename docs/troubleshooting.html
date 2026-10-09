@@ -31,8 +31,40 @@
     </div>
 
     <div class="error-block">
-      <p class="symptom">The run returns no data</p>
-      <p>Names typed into the settings (a subject group, an event type) must match the data source exactly, including capitals. Widen the time range if it's short.</p>
+      <p class="symptom">The run fails with “No data returned from EarthRanger for get_subjects”</p>
+      <p>No subjects matched. The <strong>Subject Group Name</strong> must match the group in EarthRanger exactly, including capitals and spaces. Leave it empty to check all subjects, and turn <strong>Include Inactive</strong> on if the group only has inactive subjects. The account also needs permission to see the group.</p>
+    </div>
+
+    <h2>The dashboard</h2>
+
+    <div class="error-block">
+      <p class="symptom">The run finishes but the dashboard has no diagram</p>
+      <p>Steps are skipped when one of their inputs is empty. If the site has no subject–source assignments, or no sources this account can see, the diagram step is skipped and nothing is drawn. Check in EarthRanger that the subjects have devices assigned.</p>
+    </div>
+
+    <div class="error-block">
+      <p class="symptom">“Sources with no subject” lists far more devices than expected</p>
+      <p>Sources are fetched for the whole site, and unassigned ones are always drawn. When you filter by a subject group, devices on subjects outside that group show up here too. That is expected; check them against the other groups before acting on them.</p>
+    </div>
+
+    <div class="error-block">
+      <p class="symptom">A source pill has a red outline and a short ID for a name</p>
+      <p>An assignment points at a source that isn't in the sources list: it was deleted, or this account can't see it. Hover the pill for the full ID, then fix or remove the assignment in EarthRanger.</p>
+    </div>
+
+    <div class="error-block">
+      <p class="symptom">A line and its date are red, marked ⚠</p>
+      <p>The assignment's start or end date couldn't be read. The label shows the first 10 characters of the bad value. Correct the date on the assignment in EarthRanger.</p>
+    </div>
+
+    <div class="error-block">
+      <p class="symptom">A date reads <code>? → …</code></p>
+      <p>The assignment has no start date. Set one in EarthRanger.</p>
+    </div>
+
+    <div class="error-block">
+      <p class="symptom">The diagram is wider than the widget</p>
+      <p>Scroll it sideways inside the widget, or open the HTML file saved in the results folder in a browser.</p>
     </div>
 
     <h2>Developing</h2>
@@ -45,6 +77,11 @@
     <div class="error-block">
       <p class="symptom">CI says VERSION.yaml must be greater than main's</p>
       <p>Every change needs a new version. <code>--update</code> bumps it: the minor number when the run form is unchanged, the major number when it changed.</p>
+    </div>
+
+    <div class="error-block">
+      <p class="symptom">Changing a diagram colour or width in spec.yaml has no effect</p>
+      <p>The styles are fixed in <code>spec.yaml</code>, not on the run form, so recompile after editing them. Colour fields only accept CSS colours (hex, names, <code>rgb()</code>/<code>hsl()</code>); an invalid value fails validation when the workflow runs.</p>
     </div>
 
     <div class="error-block">

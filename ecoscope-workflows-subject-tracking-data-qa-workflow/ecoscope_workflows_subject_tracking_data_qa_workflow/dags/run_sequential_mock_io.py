@@ -53,7 +53,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
-        .partial(description="", **(params.get("workflow_details") or {}))
+        .partial(**(params.get("workflow_details") or {}))
         .call()
     )
 
@@ -87,10 +87,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ],
             unpack_depth=1,
         )
-        .partial(
-            data_source={"name": "Mara North Conservancy"},
-            **(params.get("er_connection") or {}),
-        )
+        .partial(**(params.get("er_connection") or {}))
         .call()
     )
 
@@ -114,7 +111,6 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             name=None,
             updated_since=None,
             updated_until=None,
-            tracks=None,
             ids=None,
             max_ids_per_request=50,
             raise_on_empty=True,

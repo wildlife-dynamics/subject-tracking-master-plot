@@ -27,23 +27,53 @@
     <p>In the workflow runner, add a new template using this repository's URL, then select <strong>subject_tracking_data_qa</strong> from the templates list.</p>
 
     <h2>2. Data sources</h2>
-    <ul><li>Access to a <strong>EarthRanger</strong> data source, set up as a connection</li></ul>
+    <ul><li>Access to an <strong>EarthRanger</strong> site, set up as a data source connection. The account needs read access to subjects, sources and subject sources.</li></ul>
 
     <h2>3. Settings</h2>
-    <p>The run form asks for these. Fields with a default can be left as they are.</p>
+    <p>The run form asks for these. Fields with a default can be left as they are. Advanced fields are hidden until you show advanced settings.</p>
     <h3>Set Workflow Details</h3>
     <table>
       <thead><tr><th>Field</th><th>Description</th><th>Default</th></tr></thead>
-      <tbody><tr><td>Workflow Name <em>(required)</em></td><td></td><td>—</td></tr></tbody>
+      <tbody>
+        <tr><td>Workflow Name <em>(required)</em></td><td>A name for this run.</td><td>—</td></tr>
+        <tr><td>Workflow Description</td><td>A description for this run.</td><td>empty</td></tr>
+      </tbody>
+    </table>
+    <h3>Set Er Connection</h3>
+    <table>
+      <thead><tr><th>Field</th><th>Description</th><th>Default</th></tr></thead>
+      <tbody><tr><td>Data Source <em>(required)</em></td><td>The EarthRanger connection to check.</td><td>—</td></tr></tbody>
     </table>
     <h3>Get Subjects</h3>
     <table>
       <thead><tr><th>Field</th><th>Description</th><th>Default</th></tr></thead>
-      <tbody><tr><td>Include Inactive</td><td>Include inactive subjects in the list.</td><td>—</td></tr><tr><td>Subject Group Name</td><td>Subject group name to filter subjects by.</td><td>—</td></tr></tbody>
+      <tbody>
+        <tr><td>Subject Group Name</td><td>Only check subjects in this group. Must match the group name in EarthRanger exactly. Leave empty for all subjects.</td><td>All subject groups</td></tr>
+        <tr><td>Include Inactive <em>(advanced)</em></td><td>Include inactive subjects. They are drawn with a grey fill.</td><td>On</td></tr>
+        <tr><td>Tracks <em>(advanced)</em></td><td>Also fetch recent tracks per subject. The diagram doesn't use them, so leave it off.</td><td>Off</td></tr>
+      </tbody>
     </table>
+    <p class="note">Filtering by subject group limits the <strong>subjects</strong> and their assignments. Sources are always fetched for the whole site, so every source not assigned to one of the chosen subjects is listed under <strong>Sources with no subject</strong>.</p>
 
     <h2>4. Run it and find the results</h2>
-    <p>The workflow writes its files to the results folder the runner gives it (<code>ECOSCOPE_WORKFLOWS_RESULTS</code>), and shows its dashboard when it finishes.</p>
+    <p>The run produces one dashboard with a single widget, <strong>Plot</strong>, holding the diagram. The same diagram is saved as a self-contained HTML file in the results folder the runner gives it (<code>ECOSCOPE_WORKFLOWS_RESULTS</code>); it opens in any browser.</p>
+
+    <h2>5. Read the diagram</h2>
+    <p>Subjects are on the left, sorted by name; sources are on the right; the middle column shows each assignment's date range. A subject with several assignments spans one row per assignment.</p>
+    <table>
+      <thead><tr><th>You see</th><th>It means</th><th>What to check</th></tr></thead>
+      <tbody>
+        <tr><td>Solid dark line, <code>2024-03-01 → present</code></td><td>A current assignment</td><td>A source with two solid lines is on two subjects at once.</td></tr>
+        <tr><td>Grey dashed line, <code>2023-01-10 → 2024-02-28</code></td><td>An ended assignment</td><td>A subject with only dashed lines has no device on it now.</td></tr>
+        <tr><td><code>? → …</code></td><td>The assignment has no start date</td><td>Set the start date in EarthRanger.</td></tr>
+        <tr><td>Red line, label marked <code>⚠</code></td><td>A start or end date that can't be read</td><td>Fix the date on the assignment in EarthRanger.</td></tr>
+        <tr><td>Amber outline under <strong>Subjects with no source</strong></td><td>The subject has never had a device assigned</td><td>Assign its device, or deactivate the subject.</td></tr>
+        <tr><td>Amber outline under <strong>Sources with no subject</strong></td><td>The device isn't assigned to any of the subjects shown</td><td>Assign it, or check whether it belongs to another group.</td></tr>
+        <tr><td>Grey fill</td><td>An inactive subject</td><td>An inactive subject with a current line still has a device on it.</td></tr>
+        <tr><td>Red outline, short ID as the name</td><td>An assignment points at a source that isn't in the sources list</td><td>The source may have been deleted or be hidden from this account.</td></tr>
+      </tbody>
+    </table>
+    <p>Hover a subject or source to fade everything unrelated and trace its links. Hover any pill or line for its full details: a subject's type and subtype, a source's provider, type and model, and names cut short with <code>…</code>.</p>
   </main>
 
   <footer class="site-footer">
