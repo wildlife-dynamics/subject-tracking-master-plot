@@ -104,6 +104,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             ids=None,
             max_ids_per_request=50,
             raise_on_empty=True,
+            tracks=False,
             **(params.get("subjects") or {}),
         )
         .call()
@@ -257,7 +258,9 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(
-            title="Plot", data=text, **(params.get("plot_widget_single_view") or {})
+            title="Subject Tracking Master",
+            data=text,
+            **(params.get("plot_widget_single_view") or {}),
         )
         .call()
     )
