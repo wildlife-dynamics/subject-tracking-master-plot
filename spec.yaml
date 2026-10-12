@@ -1,4 +1,4 @@
-id: subject_tracking_data_qa
+id: subject_tracking_master_plot
 requirements:
 - name: ecoscope-platform
   version: ==2.25.0

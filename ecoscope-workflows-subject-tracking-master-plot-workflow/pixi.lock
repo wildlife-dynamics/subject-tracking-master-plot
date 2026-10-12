@@ -398,7 +398,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/arviz-stats-1.3.3-pyh44212f6_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/arviz-stats-core-1.3.3-pyhc364b38_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/astroplan-0.10.1-pyhd8ed1ab_2.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.5.1.0.7-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.12.1.3.27-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/asttokens-3.0.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/async-lru-2.3.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/attrs-26.1.0-pyhcf101f3_0.conda
@@ -977,7 +977,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/arviz-stats-1.3.3-pyh44212f6_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/arviz-stats-core-1.3.3-pyhc364b38_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/astroplan-0.10.1-pyhd8ed1ab_2.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.5.1.0.7-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.12.1.3.27-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/asttokens-3.0.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/async-lru-2.3.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/attrs-26.1.0-pyhcf101f3_0.conda
@@ -1238,7 +1238,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/arviz-stats-1.3.3-pyh44212f6_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/arviz-stats-core-1.3.3-pyhc364b38_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/astroplan-0.10.1-pyhd8ed1ab_2.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.5.1.0.7-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.12.1.3.27-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/asttokens-3.0.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/async-lru-2.3.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/attrs-26.1.0-pyhcf101f3_0.conda
@@ -1775,7 +1775,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/arviz-stats-1.3.3-pyh44212f6_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/arviz-stats-core-1.3.3-pyhc364b38_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/astroplan-0.10.1-pyhd8ed1ab_2.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.5.1.0.7-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.12.1.3.27-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/asttokens-3.0.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/async-lru-2.3.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/attrs-26.1.0-pyhcf101f3_0.conda
@@ -2319,7 +2319,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/arviz-stats-1.3.3-pyh44212f6_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/arviz-stats-core-1.3.3-pyhc364b38_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/astroplan-0.10.1-pyhd8ed1ab_2.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.5.1.0.7-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.12.1.3.27-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/asttokens-3.0.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/async-lru-2.3.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/attrs-26.1.0-pyhcf101f3_0.conda
@@ -16518,16 +16518,15 @@ packages:
   run_exports: {}
   size: 71853
   timestamp: 1734484572825
-- conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.5.1.0.7-pyhd8ed1ab_0.conda
-  sha256: b14acc5c2b394616cc9289629a5412cf1d4cc4c87aeba0f882a515aa3a346685
-  md5: d0a204331d940622e5402a755c5a04cc
+- conda: https://conda.anaconda.org/conda-forge/noarch/astropy-iers-data-0.2026.10.12.1.3.27-pyhd8ed1ab_0.conda
+  sha256: 7e1e00437936b3fb651c1b90aae3ce3d118ed3be916ac10ae3e451f46310cb92
+  md5: d4433f8e4af8dd6c4a1873785ac07a9f
   depends:
   - python >=3.11
   license: BSD-3-Clause
-  license_family: BSD
   run_exports: {}
-  size: 1261849
-  timestamp: 1791173324446
+  size: 1242335
+  timestamp: 1791793862974
 - conda: https://conda.anaconda.org/conda-forge/noarch/asttokens-3.0.2-pyhd8ed1ab_0.conda
   sha256: fbbd8ce60cbd5c16f3fe559eb644551f94285caff30985ea961ff851c1cf25ac
   md5: 89d495168582cb00428dad699d149624

@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>subject_tracking_data_qa</title>
+  <title>subject_tracking_master_plot</title>
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="bar">
-      <a class="brand" href="index.html">subject_tracking_data_qa</a>
+      <a class="brand" href="index.html">subject_tracking_master_plot</a>
       <nav>
         <a href="index.html" class="active">Overview</a>
         <a href="user-guide.html">User Guide</a>
@@ -20,7 +20,7 @@
   </header>
 
   <main>
-    <h1>subject_tracking_data_qa</h1>
+    <h1>subject_tracking_master_plot</h1>
     <p class="lede">A data-quality check for EarthRanger tracking setups: every subject, tracking device (source) and assignment between them, drawn as one interactive diagram so you can see which animal wears which collar, since when, and what looks wrong.</p>
 
     <div class="card-grid">
@@ -51,7 +51,7 @@
         <tr><td>Source pill with a red outline</td><td>An assignment points at a source that isn't in the sources list</td></tr>
       </tbody>
     </table>
-    <p>Hover a subject or source to fade everything else and trace its links. Hover a line or pill for full details.</p>
+    <p>Hover a subject or source to fade everything else and trace its links. Click one for a details card, including its EarthRanger ID and assignments, with a <strong>Copy</strong> button. All text in the diagram can be selected and copied.</p>
 
     <h2>What it does</h2>
     <table>
@@ -65,7 +65,7 @@
         <tr><td><strong>Get Sources</strong></td><td>Fetches all sources (tracking devices) on the site.</td></tr>
         <tr><td><strong>Draw Subject Source Diagram</strong></td><td>Draws the diagram as a self-contained HTML page, including sources not assigned to any subject.</td></tr>
         <tr><td><strong>Persist Text</strong></td><td>Saves the HTML page to the results folder.</td></tr>
-        <tr><td><strong>Create Plot Widget Single View</strong></td><td>Wraps the page in a dashboard widget titled <strong>Plot</strong>.</td></tr>
+        <tr><td><strong>Create Plot Widget Single View</strong></td><td>Wraps the page in a dashboard widget titled <strong>Subject Tracking Master</strong>.</td></tr>
         <tr><td><strong>Gather Dashboard</strong></td><td>Builds the dashboard from that widget.</td></tr>
       </tbody>
     </table>
@@ -78,7 +78,7 @@
   </main>
 
   <footer class="site-footer">
-    <p>subject_tracking_data_qa &middot; Wildlife Dynamics</p>
+    <p>subject_tracking_master_plot &middot; Wildlife Dynamics</p>
   </footer>
 </body>
 </html>

@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 import jsonschema
 import pytest
-from ecoscope_workflows_subject_tracking_data_qa_workflow.metadata import (
+from ecoscope_workflows_subject_tracking_master_plot_workflow.metadata import (
     load_params_schema,
     load_rjsf_schema,
 )

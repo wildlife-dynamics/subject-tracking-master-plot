@@ -1,7 +1,7 @@
-name: subject_tracking_data_qa
+name: subject_tracking_master_plot
 author:
 - name: Tevin Temu
   organization: Wildlife Dynamics
   email: tevin@wildlifedynamics.com
-description: ''
+description: A data-quality check for EarthRanger tracking setups. Draws every subject, tracking device (source) and assignment between them as one interactive diagram, optionally for a single subject group, showing which animal wears which collar, since when, and what looks wrong. Click any subject or source for its details to copy.
 citation: []

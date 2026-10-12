@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Troubleshooting · subject_tracking_data_qa</title>
+  <title>Troubleshooting · subject_tracking_master_plot</title>
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="bar">
-      <a class="brand" href="index.html">subject_tracking_data_qa</a>
+      <a class="brand" href="index.html">subject_tracking_master_plot</a>
       <nav>
         <a href="index.html">Overview</a>
         <a href="user-guide.html">User Guide</a>
@@ -21,7 +21,7 @@
 
   <main>
     <h1>Troubleshooting</h1>
-    <p class="lede">Common issues while configuring, running or changing subject_tracking_data_qa, and how to resolve them.</p>
+    <p class="lede">Common issues while configuring, running or changing subject_tracking_master_plot, and how to resolve them.</p>
 
     <h2>Configuration &amp; connections</h2>
 
@@ -32,7 +32,7 @@
 
     <div class="error-block">
       <p class="symptom">The run fails with “No data returned from EarthRanger for get_subjects”</p>
-      <p>No subjects matched. The <strong>Subject Group Name</strong> must match the group in EarthRanger exactly, including capitals and spaces. Leave it empty to check all subjects, and turn <strong>Include Inactive</strong> on if the group only has inactive subjects. The account also needs permission to see the group.</p>
+      <p>No subjects matched. Pick the <strong>Subject Group Name</strong> from the drop-down rather than typing it, so it matches the group in EarthRanger exactly. Leave it empty to check all subjects, and turn <strong>Include Inactive</strong> on if the group only has inactive subjects. The account also needs permission to see the group.</p>
     </div>
 
     <h2>The dashboard</h2>
@@ -49,7 +49,7 @@
 
     <div class="error-block">
       <p class="symptom">A source pill has a red outline and a short ID for a name</p>
-      <p>An assignment points at a source that isn't in the sources list: it was deleted, or this account can't see it. Hover the pill for the full ID, then fix or remove the assignment in EarthRanger.</p>
+      <p>An assignment points at a source that isn't in the sources list: it was deleted, or this account can't see it. Click the pill for its details card and copy the full ID, then fix or remove the assignment in EarthRanger.</p>
     </div>
 
     <div class="error-block">
@@ -71,7 +71,7 @@
 
     <div class="error-block">
       <p class="symptom">CI says the generated files differ from the committed ones</p>
-      <p>Recompile with <code>./dev/recompile.sh --update</code> and commit the changes in <code>ecoscope-workflows-subject-tracking-data-qa-workflow/</code>.</p>
+      <p>Recompile with <code>./dev/recompile.sh --update</code> and commit the changes in <code>ecoscope-workflows-subject-tracking-master-plot-workflow/</code>.</p>
     </div>
 
     <div class="error-block">
@@ -91,7 +91,7 @@
   </main>
 
   <footer class="site-footer">
-    <p>subject_tracking_data_qa &middot; Wildlife Dynamics</p>
+    <p>subject_tracking_master_plot &middot; Wildlife Dynamics</p>
   </footer>
 </body>
 </html>

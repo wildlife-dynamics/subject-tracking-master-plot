@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User Guide · subject_tracking_data_qa</title>
+  <title>User Guide · subject_tracking_master_plot</title>
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="bar">
-      <a class="brand" href="index.html">subject_tracking_data_qa</a>
+      <a class="brand" href="index.html">subject_tracking_master_plot</a>
       <nav>
         <a href="index.html">Overview</a>
         <a href="user-guide.html" class="active">User Guide</a>
@@ -21,10 +21,10 @@
 
   <main>
     <h1>User Guide</h1>
-    <p class="lede">How to load subject_tracking_data_qa, connect its data sources and fill in its settings.</p>
+    <p class="lede">How to load subject_tracking_master_plot, connect its data sources and fill in its settings.</p>
 
     <h2>1. Load the workflow</h2>
-    <p>In the workflow runner, add a new template using this repository's URL, then select <strong>subject_tracking_data_qa</strong> from the templates list.</p>
+    <p>In the workflow runner, add a new template using this repository's URL, then select <strong>subject_tracking_master_plot</strong> from the templates list.</p>
 
     <h2>2. Data sources</h2>
     <ul><li>Access to an <strong>EarthRanger</strong> site, set up as a data source connection. The account needs read access to subjects, sources and subject sources.</li></ul>
@@ -48,15 +48,14 @@
     <table>
       <thead><tr><th>Field</th><th>Description</th><th>Default</th></tr></thead>
       <tbody>
-        <tr><td>Subject Group Name</td><td>Only check subjects in this group. Must match the group name in EarthRanger exactly. Leave empty for all subjects.</td><td>All subject groups</td></tr>
+        <tr><td>Subject Group Name</td><td>Only check subjects in this group. Pick from the drop-down, which lists the subject groups on the chosen EarthRanger site once a Data Source is selected. Leave empty for all subjects.</td><td>All subject groups</td></tr>
         <tr><td>Include Inactive <em>(advanced)</em></td><td>Include inactive subjects. They are drawn with a grey fill.</td><td>On</td></tr>
-        <tr><td>Tracks <em>(advanced)</em></td><td>Also fetch recent tracks per subject. The diagram doesn't use them, so leave it off.</td><td>Off</td></tr>
       </tbody>
     </table>
     <p class="note">Filtering by subject group limits the <strong>subjects</strong> and their assignments. Sources are always fetched for the whole site, so every source not assigned to one of the chosen subjects is listed under <strong>Sources with no subject</strong>.</p>
 
     <h2>4. Run it and find the results</h2>
-    <p>The run produces one dashboard with a single widget, <strong>Plot</strong>, holding the diagram. The same diagram is saved as a self-contained HTML file in the results folder the runner gives it (<code>ECOSCOPE_WORKFLOWS_RESULTS</code>); it opens in any browser.</p>
+    <p>The run produces one dashboard with a single widget, <strong>Subject Tracking Master</strong>, holding the diagram. The same diagram is saved as a self-contained HTML file in the results folder the runner gives it (<code>ECOSCOPE_WORKFLOWS_RESULTS</code>); it opens in any browser.</p>
 
     <h2>5. Read the diagram</h2>
     <p>Subjects are on the left, sorted by name; sources are on the right; the middle column shows each assignment's date range. A subject with several assignments spans one row per assignment.</p>
@@ -73,11 +72,18 @@
         <tr><td>Red outline, short ID as the name</td><td>An assignment points at a source that isn't in the sources list</td><td>The source may have been deleted or be hidden from this account.</td></tr>
       </tbody>
     </table>
-    <p>Hover a subject or source to fade everything unrelated and trace its links. Hover any pill or line for its full details: a subject's type and subtype, a source's provider, type and model, and names cut short with <code>…</code>.</p>
+    <p>Assignment date labels are coloured to match their line: dark for current, grey for ended, red for a date that can't be read.</p>
+
+    <h2>6. Look up and copy details</h2>
+    <ul>
+      <li><strong>Hover</strong> a subject or source to fade everything unrelated and trace its links. Hover any pill or line for its details as a tooltip: a subject's type and subtype, a source's provider, type and model, and names cut short with <code>…</code>.</li>
+      <li><strong>Click</strong> a subject or source to open a details card beside it. It shows the full name, the EarthRanger ID, the same type or provider fields, and every assignment with the subject or source on the other end and its dates. <strong>Copy</strong> copies the whole card, ready to paste into a spreadsheet, email or ticket. To copy just one value, such as the ID, select it in the card. Close the card with ×, Esc or a click elsewhere.</li>
+      <li><strong>Select and copy</strong> any text in the diagram as you would on a web page: drag down a column to pick several names, or double-click one. Copying gives one value per line, and names cut short with <code>…</code> copy in full.</li>
+    </ul>
   </main>
 
   <footer class="site-footer">
-    <p>subject_tracking_data_qa &middot; Wildlife Dynamics</p>
+    <p>subject_tracking_master_plot &middot; Wildlife Dynamics</p>
   </footer>
 </body>
 </html>

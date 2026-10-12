@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>subject_tracking_data_qa</title>
+  <title>subject_tracking_master_plot</title>
   <link rel="stylesheet" href="docs/assets/style.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="bar">
-      <a class="brand" href="README.html">subject_tracking_data_qa</a>
+      <a class="brand" href="README.html">subject_tracking_master_plot</a>
       <nav>
         <a href="docs/index.html">Overview</a>
         <a href="docs/user-guide.html">User Guide</a>
@@ -20,7 +20,7 @@
   </header>
 
   <main>
-    <h1>subject_tracking_data_qa</h1>
+    <h1>subject_tracking_master_plot</h1>
     <p class="lede">A data-quality check for EarthRanger tracking setups. It fetches every subject, tracking device (source) and assignment between them, and draws them as a single interactive diagram so you can see at a glance which animal wears which collar, since when, and what looks wrong.</p>
 
     <h2>What the diagram shows</h2>
@@ -36,7 +36,14 @@
         <tr><td>Source pill with a red outline</td><td>An assignment points at a source that isn't in the sources list</td></tr>
       </tbody>
     </table>
-    <p>Hover a subject or source to fade everything else and trace its links. Hover a line or pill for full details (subject type, provider, model, full name).</p>
+    <p>Assignment date labels are coloured to match their line: dark for current, grey for ended, red for a date that can't be read.</p>
+
+    <h3>Using the diagram</h3>
+    <ul>
+      <li><strong>Hover</strong> a subject or source to fade everything else and trace its links. Hover a line or pill for its details as a tooltip.</li>
+      <li><strong>Click</strong> a subject or source to open a details card: the full name, its EarthRanger ID, its type (subjects) or provider, type and model (sources), and every assignment with its dates. <strong>Copy</strong> copies the whole card; you can also select just one value in it, such as the ID. Close it with ×, Esc or a click elsewhere.</li>
+      <li><strong>Select and copy</strong> any text in the diagram, like ordinary text: drag down a column to pick several names, or double-click one. Copying gives one value per line, and names cut short with <code>…</code> copy in full.</li>
+    </ul>
 
     <h2>What it does</h2>
     <table>
@@ -50,7 +57,7 @@
         <tr><td><strong>Get Sources</strong></td><td>Fetches all sources (tracking devices) on the site.</td></tr>
         <tr><td><strong>Draw Subject Source Diagram</strong></td><td>Draws the diagram as a self-contained HTML page, including sources not assigned to any subject.</td></tr>
         <tr><td><strong>Persist Text</strong></td><td>Saves the HTML page to the results folder.</td></tr>
-        <tr><td><strong>Create Plot Widget Single View</strong></td><td>Wraps the page in a dashboard widget titled <strong>Plot</strong>.</td></tr>
+        <tr><td><strong>Create Plot Widget Single View</strong></td><td>Wraps the page in a dashboard widget titled <strong>Subject Tracking Master</strong>.</td></tr>
         <tr><td><strong>Gather Dashboard</strong></td><td>Builds the dashboard from that widget.</td></tr>
       </tbody>
     </table>
@@ -61,7 +68,7 @@
     <hr />
 
     <h2>1. Load the workflow</h2>
-    <p>In the workflow runner, add a new template using this repository's URL. Once added, select <strong>subject_tracking_data_qa</strong> from the available templates list to load it.</p>
+    <p>In the workflow runner, add a new template using this repository's URL. Once added, select <strong>subject_tracking_master_plot</strong> from the available templates list to load it.</p>
 
     <h2>2. Configure the workflow</h2>
     <p>You'll be prompted to fill in the following parameters before running.</p>
@@ -85,9 +92,8 @@
     <table>
       <thead><tr><th>Field</th><th>Description</th><th>Default</th></tr></thead>
       <tbody>
-        <tr><td>Subject Group Name</td><td>Only check subjects in this group. Leave empty for all subjects.</td><td>All subject groups</td></tr>
+        <tr><td>Subject Group Name</td><td>Only check subjects in this group. Pick from the drop-down, which lists the subject groups on the chosen EarthRanger site once a Data Source is selected. Leave empty for all subjects.</td><td>All subject groups</td></tr>
         <tr><td>Include Inactive <em>(advanced)</em></td><td>Include inactive subjects.</td><td>On</td></tr>
-        <tr><td>Tracks <em>(advanced)</em></td><td>Also fetch recent tracks per subject. Not used by the diagram; leave off.</td><td>Off</td></tr>
       </tbody>
     </table>
     <p class="note">Filtering by subject group limits the <strong>subjects</strong> and their assignments. Sources are always fetched for the whole site, so every source not assigned to one of the chosen subjects appears under <strong>Sources with no subject</strong>.</p>
@@ -102,13 +108,13 @@
 ./dev/recompile.sh --update
 
 # run the test cases in test-cases.yaml
-pixi run --manifest-path pixi.toml -e default bash dev/pytest-cli.sh subject_tracking_data_qa --all</code></pre>
+pixi run --manifest-path pixi.toml -e default bash dev/pytest-cli.sh subject_tracking_master_plot --all</code></pre>
 
     <p>Documentation: <a href="docs/index.html">docs/index.html</a>.</p>
   </main>
 
   <footer class="site-footer">
-    <p>subject_tracking_data_qa &middot; Wildlife Dynamics</p>
+    <p>subject_tracking_master_plot &middot; Wildlife Dynamics</p>
   </footer>
 </body>
 </html>
