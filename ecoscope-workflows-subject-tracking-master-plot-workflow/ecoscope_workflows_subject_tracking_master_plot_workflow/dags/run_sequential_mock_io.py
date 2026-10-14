@@ -223,7 +223,6 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
                 "source_header": "Sources",
                 "label_column_width": 150,
                 "link_width": 130,
-                "hover_dim_opacity": 0.12,
             },
             title="",
             row_height=42,
