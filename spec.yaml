@@ -95,11 +95,22 @@ workflow:
     ids: null
     raise_on_empty: false
 
+# Split on the AllGrouper (groupers pinned to null above) so the dashboard gets a real
+# '{"All": "True"}' view; an unsplit widget keys as '{}' and Desktop hides Edit Layout.
+- name: Split Subjects by Group
+  id: grouped_subjects
+  task: split_groups
+  partial:
+    df: ${{ workflow.subjects.return }}
+    groupers: ${{ workflow.groupers.return }}
+
 - name: Draw Subject Source Diagram
   id: subject_source_diagram
   task: draw_subject_source_diagram
+  mapvalues:
+    argnames: subjects
+    argvalues: ${{ workflow.grouped_subjects.return }}
   partial:
-    subjects: ${{ workflow.subjects.return }}
     subjectsources: ${{ workflow.subjectsources.return }}
     sources: ${{ workflow.sources.return }}
     node_style:
@@ -147,14 +158,29 @@ workflow:
   task: persist_text
   partial:
     root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
-    text: ${{ workflow.subject_source_diagram.return }}
+  mapvalues:
+    argnames: text
+    argvalues: ${{ workflow.subject_source_diagram.return }}
 
 - name: Create Plot Widget Single View
   id: plot_widget_single_view
   task: create_plot_widget_single_view
+  skipif:
+    conditions:
+    - never
   partial:
     title: Subject Tracking Master
-    data: ${{ workflow.text.return }}
+  map:
+    argnames:
+    - view
+    - data
+    argvalues: ${{ workflow.text.return }}
+
+- name: Merge Widget Views
+  id: merged_plot_widget
+  task: merge_widget_views
+  partial:
+    widgets: ${{ workflow.plot_widget_single_view.return }}
 
 - name: Gather Dashboard
   id: dashboard
@@ -163,5 +189,5 @@ workflow:
     details: ${{ workflow.workflow_details.return }}
     groupers: ${{ workflow.groupers.return }}
     widgets:
-    - ${{ workflow.plot_widget_single_view.return }}
+    - ${{ workflow.merged_plot_widget.return }}
     time_range: null

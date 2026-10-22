@@ -4,16 +4,19 @@ from typing import Any
 
 from ecoscope.platform.tasks.config import set_workflow_details as set_workflow_details
 from ecoscope.platform.tasks.groupby import set_groupers as set_groupers
+from ecoscope.platform.tasks.groupby import split_groups as split_groups
 from ecoscope.platform.tasks.io import persist_text as persist_text
 from ecoscope.platform.tasks.io import set_er_connection as set_er_connection
 from ecoscope.platform.tasks.results import (
     create_plot_widget_single_view as create_plot_widget_single_view,
 )
 from ecoscope.platform.tasks.results import gather_dashboard as gather_dashboard
+from ecoscope.platform.tasks.results import merge_widget_views as merge_widget_views
 from ecoscope.platform.tasks.skip import (
     any_dependency_skipped as any_dependency_skipped,
 )
 from ecoscope.platform.tasks.skip import any_is_empty_df as any_is_empty_df
+from ecoscope.platform.tasks.skip import never as never
 from ecoscope_workflows_ext_mep.tasks.io import get_sources as get_sources
 from ecoscope_workflows_ext_mep.tasks.io import get_subjects as get_subjects
 from ecoscope_workflows_ext_mep.tasks.io import get_subjectsources as get_subjectsources
@@ -158,6 +161,25 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .call()
     )
 
+    grouped_subjects = (
+        task(split_groups)
+        .validate()
+        .set_task_instance_id("grouped_subjects")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
+                any_is_empty_df,
+                any_dependency_skipped,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            df=subjects, groupers=groupers, **(params.get("grouped_subjects") or {})
+        )
+        .call()
+    )
+
     subject_source_diagram = (
         task(draw_subject_source_diagram)
         .validate()
@@ -172,7 +194,6 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             unpack_depth=1,
         )
         .partial(
-            subjects=subjects,
             subjectsources=subjectsources,
             sources=sources,
             node_style={
@@ -219,7 +240,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             include_unlinked_sources=True,
             **(params.get("subject_source_diagram") or {}),
         )
-        .call()
+        .mapvalues(argnames=["subjects"], argvalues=grouped_subjects)
     )
 
     text = (
@@ -237,10 +258,9 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         )
         .partial(
             root_path=os.environ["ECOSCOPE_WORKFLOWS_RESULTS"],
-            text=subject_source_diagram,
             **(params.get("text") or {}),
         )
-        .call()
+        .mapvalues(argnames=["text"], argvalues=subject_source_diagram)
     )
 
     plot_widget_single_view = (
@@ -251,15 +271,32 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .with_tracing()
         .skipif(
             conditions=[
+                never,
+            ],
+            unpack_depth=1,
+        )
+        .partial(
+            title="Subject Tracking Master",
+            **(params.get("plot_widget_single_view") or {}),
+        )
+        .map(argnames=["view", "data"], argvalues=text)
+    )
+
+    merged_plot_widget = (
+        task(merge_widget_views)
+        .validate()
+        .set_task_instance_id("merged_plot_widget")
+        .handle_errors()
+        .with_tracing()
+        .skipif(
+            conditions=[
                 any_is_empty_df,
                 any_dependency_skipped,
             ],
             unpack_depth=1,
         )
         .partial(
-            title="Subject Tracking Master",
-            data=text,
-            **(params.get("plot_widget_single_view") or {}),
+            widgets=plot_widget_single_view, **(params.get("merged_plot_widget") or {})
         )
         .call()
     )
@@ -280,7 +317,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
         .partial(
             details=workflow_details,
             groupers=groupers,
-            widgets=[plot_widget_single_view],
+            widgets=[merged_plot_widget],
             time_range=None,
             **(params.get("dashboard") or {}),
         )
