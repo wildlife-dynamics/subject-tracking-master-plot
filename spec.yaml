@@ -1,7 +1,7 @@
 id: subject_tracking_master_plot
 requirements:
 - name: ecoscope-platform
-  version: ==2.25.0
+  version: ==2.25.3
   channel: https://repo.prefix.dev/ecoscope-workflows/
 
 - name: pydeck
@@ -13,15 +13,15 @@ requirements:
   channel: conda-forge
 
 - name: ecoscope-workflows-ext-ste
-  version: ==0.0.0rc1
+  version: ==0.0.24
   channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 
 - name: ecoscope-workflows-ext-custom
-  version: ==0.1.0rc14
+  version: ==0.1.4
   channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 
 - name: ecoscope-workflows-ext-mep
-  version: ==1.0.9
+  version: ==1.10.7
   channel: https://repo.prefix.dev/ecoscope-workflows-custom/
 
 rjsf-overrides:

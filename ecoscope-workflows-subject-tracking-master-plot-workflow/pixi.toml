@@ -20,7 +20,7 @@ platforms = [
 linux = "4.4.0"
 
 [dependencies.ecoscope-platform]
-version = "==2.25.0"
+version = "==2.25.3"
 channel = "https://repo.prefix.dev/ecoscope-workflows/"
 
 [dependencies.pydeck]
@@ -32,15 +32,15 @@ version = "==81.0.0"
 channel = "https://conda.anaconda.org/conda-forge/"
 
 [dependencies.ecoscope-workflows-ext-ste]
-version = "==0.0.0rc1"
+version = "==0.0.24"
 channel = "https://repo.prefix.dev/ecoscope-workflows-custom/"
 
 [dependencies.ecoscope-workflows-ext-custom]
-version = "==0.1.0rc14"
+version = "==0.1.4"
 channel = "https://repo.prefix.dev/ecoscope-workflows-custom/"
 
 [dependencies.ecoscope-workflows-ext-mep]
-version = "==1.0.9"
+version = "==1.10.7"
 channel = "https://repo.prefix.dev/ecoscope-workflows-custom/"
 
 [dependencies.click]
