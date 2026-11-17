@@ -1,4 +1,4 @@
-# subject_tracking_master_plot
+# Subject Tracking Master Plot
 
 A data-quality check for EarthRanger tracking setups. It fetches every subject, tracking
 device (source) and assignment between them, and draws them as a single interactive
