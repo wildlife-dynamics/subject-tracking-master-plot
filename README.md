@@ -5,6 +5,11 @@ device (source) and assignment between them, and draws them as a single interact
 diagram so you can see at a glance which animal wears which collar, since when, and what
 looks wrong.
 
+![Subject–source diagram](resources/thumbnail.png)
+
+*Made-up subjects, collars and assignments, not real data. Generated with
+`dev/make_thumbnail_diagram.py`.*
+
 ## What the diagram shows
 
 Subjects are listed on the left and sources on the right. Each assignment is a line

@@ -12,29 +12,42 @@ from typing import Any
 
 from ecoscope.platform.tasks.config import set_workflow_details as set_workflow_details
 from ecoscope.platform.tasks.groupby import set_groupers as set_groupers
+from ecoscope.platform.tasks.io import set_er_connection as set_er_connection
+from ecoscope.platform.tasks.skip import (
+    any_dependency_skipped as any_dependency_skipped,
+)
+from ecoscope.platform.tasks.skip import any_is_empty_df as any_is_empty_df
+from wt_contracts import validate as _validate
+from wt_task import task
+from wt_task.testing import create_func_magicmock  # 🧪
+
+from .. import metadata as _metadata
+
+get_subjects = create_func_magicmock(  # 🧪
+    anchor="ecoscope_workflows_ext_custom.tasks.io",  # 🧪
+    func_name="get_subjects",  # 🧪
+)  # 🧪
+
+get_subjectsources = create_func_magicmock(  # 🧪
+    anchor="ecoscope_workflows_ext_custom.tasks.io",  # 🧪
+    func_name="get_subjectsources",  # 🧪
+)  # 🧪
+
+get_sources = create_func_magicmock(  # 🧪
+    anchor="ecoscope_workflows_ext_custom.tasks.io",  # 🧪
+    func_name="get_sources",  # 🧪
+)  # 🧪
 from ecoscope.platform.tasks.groupby import split_groups as split_groups
 from ecoscope.platform.tasks.io import persist_text as persist_text
-from ecoscope.platform.tasks.io import set_er_connection as set_er_connection
 from ecoscope.platform.tasks.results import (
     create_plot_widget_single_view as create_plot_widget_single_view,
 )
 from ecoscope.platform.tasks.results import gather_dashboard as gather_dashboard
 from ecoscope.platform.tasks.results import merge_widget_views as merge_widget_views
-from ecoscope.platform.tasks.skip import (
-    any_dependency_skipped as any_dependency_skipped,
-)
-from ecoscope.platform.tasks.skip import any_is_empty_df as any_is_empty_df
 from ecoscope.platform.tasks.skip import never as never
-from ecoscope_workflows_ext_mep.tasks.io import get_sources as get_sources
-from ecoscope_workflows_ext_mep.tasks.io import get_subjects as get_subjects
-from ecoscope_workflows_ext_mep.tasks.io import get_subjectsources as get_subjectsources
-from ecoscope_workflows_ext_mep.tasks.results import (
+from ecoscope_workflows_ext_custom.tasks.results import (
     draw_subject_source_diagram as draw_subject_source_diagram,
 )
-from wt_contracts import validate as _validate
-from wt_task import task
-
-from .. import metadata as _metadata
 
 
 def main(params: dict[str, Any], validate_params_schema: bool = True):
@@ -96,7 +109,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
 
     subjects = (
         task(get_subjects)
-        .validate()
+        # 🧪 validation omitted for mocked IO task (returns pre-loaded example data)
         .set_task_instance_id("subjects")
         .handle_errors()
         .with_tracing()
@@ -125,7 +138,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
 
     subjectsources = (
         task(get_subjectsources)
-        .validate()
+        # 🧪 validation omitted for mocked IO task (returns pre-loaded example data)
         .set_task_instance_id("subjectsources")
         .handle_errors()
         .with_tracing()
@@ -148,7 +161,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
 
     sources = (
         task(get_sources)
-        .validate()
+        # 🧪 validation omitted for mocked IO task (returns pre-loaded example data)
         .set_task_instance_id("sources")
         .handle_errors()
         .with_tracing()

@@ -17,10 +17,12 @@ from ecoscope.platform.tasks.skip import (
 )
 from ecoscope.platform.tasks.skip import any_is_empty_df as any_is_empty_df
 from ecoscope.platform.tasks.skip import never as never
-from ecoscope_workflows_ext_mep.tasks.io import get_sources as get_sources
-from ecoscope_workflows_ext_mep.tasks.io import get_subjects as get_subjects
-from ecoscope_workflows_ext_mep.tasks.io import get_subjectsources as get_subjectsources
-from ecoscope_workflows_ext_mep.tasks.results import (
+from ecoscope_workflows_ext_custom.tasks.io import get_sources as get_sources
+from ecoscope_workflows_ext_custom.tasks.io import get_subjects as get_subjects
+from ecoscope_workflows_ext_custom.tasks.io import (
+    get_subjectsources as get_subjectsources,
+)
+from ecoscope_workflows_ext_custom.tasks.results import (
     draw_subject_source_diagram as draw_subject_source_diagram,
 )
 from wt_contracts import validate as _validate
