@@ -89,7 +89,7 @@ You'll be prompted to fill in the following parameters before running.
 
 | Field | Description | Default |
 |---|---|---|
-| Subject Group Name | Only check subjects in this group. Pick from the drop-down, which lists the subject groups on the chosen EarthRanger site once a Data Source is selected. Leave empty for all subjects. | All subject groups |
+| Subject Group | **All subject groups** checks every subject on the site. **One subject group** checks only the subjects in the group you pick from the drop-down, which lists the subject groups on the chosen EarthRanger site once a Data Source is selected. | All subject groups |
 | Include Inactive *(advanced)* | Include inactive subjects. | On |
 
 Filtering by subject group limits the **subjects** and their assignments. Sources are

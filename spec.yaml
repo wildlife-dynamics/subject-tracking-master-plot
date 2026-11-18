@@ -54,18 +54,32 @@ requirements:
 
 rjsf-overrides:
   properties:
-    # Replace the "name or no filter" field with a drop-down of the chosen EarthRanger
-    # site's subject group names (overrides can't reach inside its anyOf). Leaving it
-    # empty keeps the task's default: subjects from all groups.
+    # Subject Group: "All subject groups" (null, the task default) or "One subject group" (a
+    # drop-down of the chosen EarthRanger site's subject group names). A plain string field with
+    # the lookup can't be left empty on Desktop: the lookup turns it into a oneOf of group names,
+    # which an empty value fails, so the form won't submit. The lookup sits on the string branch
+    # only; Desktop resolves it for whichever branch is selected. All comes first so a new form
+    # starts on it (it matches the null default).
+    # oneOf, not anyOf: Desktop's lookup builds the drop-down by merging this parent schema into
+    # the branch and drops only enum/oneOf/default, so a parent anyOf rides along next to the
+    # lookup's oneOf of names. rjsf then treats the field as a select (isSelect reads oneOf) but
+    # lists its options from anyOf (optionsList reads anyOf first), and the null branch throws
+    # "schema cannot be inferred as a constant". null and a string never both match, so oneOf
+    # validates the same.
     subjects.properties.subject_group_name:
-      title: Subject Group Name
-      type: string
-      description: Only include subjects in this group. Leave empty to include subjects from all groups.
-      ecoscope:transform:
-      - transformer: EarthRangerEnumResolver
-        transformer_kws:
-          type: subject_group_name
-          depends_on: properties.er_connection.properties.data_source.properties.name
+      title: Subject Group
+      description: Check every subject on the site, or only the subjects in one group.
+      default: null
+      oneOf:
+      - title: All subject groups
+        type: 'null'
+      - title: One subject group
+        type: string
+        ecoscope:transform:
+        - transformer: EarthRangerEnumResolver
+          transformer_kws:
+            type: subject_group_name
+            depends_on: properties.er_connection.properties.data_source.properties.name
 
 task-instance-defaults:
   skipif:

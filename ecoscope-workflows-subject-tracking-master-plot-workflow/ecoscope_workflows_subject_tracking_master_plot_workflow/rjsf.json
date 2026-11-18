@@ -46,16 +46,26 @@
           "ecoscope:advanced": true
         },
         "subject_group_name": {
-          "title": "Subject Group Name",
-          "type": "string",
-          "description": "Only include subjects in this group. Leave empty to include subjects from all groups.",
-          "ecoscope:transform": [
+          "title": "Subject Group",
+          "description": "Check every subject on the site, or only the subjects in one group.",
+          "default": null,
+          "oneOf": [
             {
-              "transformer": "EarthRangerEnumResolver",
-              "transformer_kws": {
-                "type": "subject_group_name",
-                "depends_on": "properties.er_connection.properties.data_source.properties.name"
-              }
+              "title": "All subject groups",
+              "type": "null"
+            },
+            {
+              "title": "One subject group",
+              "type": "string",
+              "ecoscope:transform": [
+                {
+                  "transformer": "EarthRangerEnumResolver",
+                  "transformer_kws": {
+                    "type": "subject_group_name",
+                    "depends_on": "properties.er_connection.properties.data_source.properties.name"
+                  }
+                }
+              ]
             }
           ]
         }
